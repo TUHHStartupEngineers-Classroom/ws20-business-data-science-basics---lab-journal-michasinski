@@ -9,10 +9,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=EDGE" />
 
 
-<meta name="author" content="Joschka Schwarz" />
+<meta name="author" content="Michael Jasinski" />
 
+<meta name="date" content="2020-11-21" />
 
-<title>ggplot Graphs</title>
+<title>Journal (reproducible report)</title>
 
 <script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -20,6 +21,9 @@
 <script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
 <script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/jqueryui-1.11.4/jquery-ui.min.js"></script>
+<link href="site_libs/tocify-1.9.1/jquery.tocify.css" rel="stylesheet" />
+<script src="site_libs/tocify-1.9.1/jquery.tocify.js"></script>
 <script src="site_libs/navigation-1.1/tabsets.js"></script>
 <link href="site_libs/highlightjs-9.12.0/default.css" rel="stylesheet" />
 <script src="site_libs/highlightjs-9.12.0/highlight.js"></script>
@@ -261,6 +265,69 @@ $(document).ready(function () {
 
 
 
+<style type="text/css">
+
+#TOC {
+  margin: 25px 0px 20px 0px;
+}
+@media (max-width: 768px) {
+#TOC {
+  position: relative;
+  width: 100%;
+}
+}
+
+@media print {
+.toc-content {
+  /* see https://github.com/w3c/csswg-drafts/issues/4434 */
+  float: right;
+}
+}
+
+.toc-content {
+  padding-left: 30px;
+  padding-right: 40px;
+}
+
+div.main-container {
+  max-width: 1200px;
+}
+
+div.tocify {
+  width: 20%;
+  max-width: 260px;
+  max-height: 85%;
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  div.tocify {
+    width: 25%;
+  }
+}
+
+@media (max-width: 767px) {
+  div.tocify {
+    width: 100%;
+    max-width: none;
+  }
+}
+
+.tocify ul, .tocify li {
+  line-height: 20px;
+}
+
+.tocify-subheader .tocify-item {
+  font-size: 0.90em;
+}
+
+.tocify .list-group-item {
+  border-radius: 0px;
+}
+
+
+</style>
+
+
 
 </head>
 
@@ -268,6 +335,16 @@ $(document).ready(function () {
 
 
 <div class="container-fluid main-container">
+
+
+<!-- setup 3col/9col grid for toc_float and main content  -->
+<div class="row-fluid">
+<div class="col-xs-12 col-sm-4 col-md-3">
+<div id="TOC" class="tocify">
+</div>
+</div>
+
+<div class="toc-content col-xs-12 col-sm-8 col-md-9">
 
 
 
@@ -326,53 +403,44 @@ $(document).ready(function () {
 
 
 
-<h1 class="title toc-ignore">ggplot Graphs</h1>
-<h4 class="author">Joschka Schwarz</h4>
-<h4 class="date">Nov 5, 2020</h4>
+<h1 class="title toc-ignore">Journal (reproducible report)</h1>
+<h4 class="author">Michael Jasinski</h4>
+<h4 class="date">2020-11-21</h4>
 
 </div>
 
 
-<p>The following code chunks will only print something, if you’ve installed the package <code>ggplot2</code>.</p>
-<p>Install it by running:</p>
-<pre class="r"><code>install.packages(&quot;ggplot2&quot;)</code></pre>
-<p>After installing it, you can remove the <code>if</code> conditions in the next code chunks.</p>
-<pre class="r"><code>if (&quot;ggplot2&quot; %in% rownames(installed.packages())) {
-  
-  # Laod plotting library
-  library(ggplot2)
-
-  # Print data
-  mpg
-  
-  }</code></pre>
-<pre><code>## # A tibble: 234 x 11
-##    manufacturer model    displ  year   cyl trans   drv     cty   hwy fl    class
-##    &lt;chr&gt;        &lt;chr&gt;    &lt;dbl&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt;   &lt;chr&gt; &lt;int&gt; &lt;int&gt; &lt;chr&gt; &lt;chr&gt;
-##  1 audi         a4         1.8  1999     4 auto(l~ f        18    29 p     comp~
-##  2 audi         a4         1.8  1999     4 manual~ f        21    29 p     comp~
-##  3 audi         a4         2    2008     4 manual~ f        20    31 p     comp~
-##  4 audi         a4         2    2008     4 auto(a~ f        21    30 p     comp~
-##  5 audi         a4         2.8  1999     6 auto(l~ f        16    26 p     comp~
-##  6 audi         a4         2.8  1999     6 manual~ f        18    26 p     comp~
-##  7 audi         a4         3.1  2008     6 auto(a~ f        18    27 p     comp~
-##  8 audi         a4 quat~   1.8  1999     4 manual~ 4        18    26 p     comp~
-##  9 audi         a4 quat~   1.8  1999     4 auto(l~ 4        16    25 p     comp~
-## 10 audi         a4 quat~   2    2008     4 manual~ 4        20    28 p     comp~
-## # ... with 224 more rows</code></pre>
-<pre class="r"><code>if (&quot;ggplot2&quot; %in% rownames(installed.packages())) {
-  
-ggplot(data = mpg, mapping = aes(x = displ, y = hwy)) + 
-  geom_point(mapping = aes(color = class)) + 
-  geom_smooth()
-  
-}</code></pre>
-<pre><code>## `geom_smooth()` using method = &#39;loess&#39; and formula &#39;y ~ x&#39;</code></pre>
-<p><img src="ggplot_graphs_files/figure-html/unnamed-chunk-3-1.png" width="672" /></p>
-<p>…</p>
+<div id="tidyverse" class="section level1">
+<h1><span class="header-section-number">1</span> Tidyverse</h1>
+<p><img src="journal_files/tidyverse/revenue_by_loc.png" /> In this figure you can see the revenue by location. North-Rhine-Westphalia is the state with the highest revenue</p>
+<p><img src="journal_files/tidyverse/revenue_by_year_loc.png" /> In this plot you can see the sales by location and year.</p>
+<p>You can find the scripts in /journal_files/tidyverse/.</p>
+</div>
+<div id="aquisition" class="section level1">
+<h1><span class="header-section-number">2</span> Aquisition</h1>
+<p>In this figure you can see the prices of the bikes in the category ‘MTB’ from the manufacturer Rosebikes.</p>
+<p><img src="journal_files/aquisition/aquisition-1.jpg" /></p>
+<p>You can find the scripts in /journal_files/aquisition/.</p>
+</div>
+<div id="wrangling" class="section level1">
+<h1><span class="header-section-number">3</span> Wrangling</h1>
+<p>In this figure you can see the 10 US companies with the most assigned/granted patents.</p>
+<p><img src="journal_files/wrangling/wrangling-1.jpg" /></p>
+<p>In this figure you see the top 10 companies with the most new granted patents for 2019. <img src="journal_files/wrangling/wrangling-2.jpg" /></p>
+<p>In this figure you see the top 5 USPTO tech main classes for the top 10 companies (worldwide) with the most patents. <img src="journal_files/wrangling/wrangling-3.jpg" /></p>
+<p>You can find the scripts in /journal_files/wrangling/.</p>
+</div>
+<div id="visualization" class="section level1">
+<h1><span class="header-section-number">4</span> Visualization</h1>
+<p>In this figure you see the time course of the cumulative Covid-19 cases. <img src="journal_files/visualization/visualization-1.png" /></p>
+<p>In this figure you can see the distribution of the mortality rate. <img src="journal_files/visualization/visualization-2.png" /></p>
+<p>You can find the scripts in /journal_files/visualization/.</p>
+</div>
 
 
 
+</div>
+</div>
 
 </div>
 
@@ -405,6 +473,32 @@ $(document).ready(function () {
 
 <!-- code folding -->
 
+<script>
+$(document).ready(function ()  {
+
+    // move toc-ignore selectors from section div to header
+    $('div.section.toc-ignore')
+        .removeClass('toc-ignore')
+        .children('h1,h2,h3,h4,h5').addClass('toc-ignore');
+
+    // establish options
+    var options = {
+      selectors: "h1,h2,h3",
+      theme: "bootstrap3",
+      context: '.toc-content',
+      hashGenerator: function (text) {
+        return text.replace(/[.\\/?&!#<>]/g, '').replace(/\s/g, '_');
+      },
+      ignoreSelector: ".toc-ignore",
+      scrollTo: 0
+    };
+    options.showAndHide = true;
+    options.smoothScroll = true;
+
+    // tocify
+    var toc = $("#TOC").tocify(options).data("toc-tocify");
+});
+</script>
 
 <!-- dynamically load mathjax for compatibility with self-contained -->
 <script>
